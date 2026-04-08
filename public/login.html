@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - The Midnight Archive</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="auth-title">Welcome to the Library</h1>
+            <p class="auth-subtitle">Log in or create an account to access the archives.</p>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Login</button>
+                <button class="auth-tab" id="tab-register">Register</button>
+            </div>
+
+            <form id="auth-form" class="auth-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required autocomplete="current-password">
+                </div>
+                <div class="error-msg" id="error-msg"></div>
+                <button type="submit" class="primary-btn auth-submit" id="auth-submit-btn">Enter</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const tabLogin = document.getElementById('tab-login');
+        const tabRegister = document.getElementById('tab-register');
+        const authForm = document.getElementById('auth-form');
+        const submitBtn = document.getElementById('auth-submit-btn');
+        const errorMsg = document.getElementById('error-msg');
+        
+        let isLogin = true;
+
+        tabLogin.addEventListener('click', () => {
+            isLogin = true;
+            tabLogin.classList.add('active');
+            tabRegister.classList.remove('active');
+            submitBtn.textContent = 'Enter';
+            errorMsg.textContent = '';
+        });
+
+        tabRegister.addEventListener('click', () => {
+            isLogin = false;
+            tabRegister.classList.add('active');
+            tabLogin.classList.remove('active');
+            submitBtn.textContent = 'Create Account';
+            errorMsg.textContent = '';
+        });
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const endpoint = isLogin ? '/api/login' : '/api/register';
+
+            errorMsg.textContent = '';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    window.location.href = '/';
+                } else {
+                    errorMsg.textContent = data.error || 'Authentication failed';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = isLogin ? 'Enter' : 'Create Account';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Network error. Try again.';
+                submitBtn.disabled = false;
+                submitBtn.textContent = isLogin ? 'Enter' : 'Create Account';
+            }
+        });
+    </script>
+</body>
+</html>

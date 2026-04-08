@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Midnight Archive</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo font-serif">The Archive</div>
+        <ul class="nav-links">
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Bestsellers</a></li>
+            <li><a href="#">Collections</a></li>
+        </ul>
+        <div class="nav-actions">
+            <span class="user-greeting" id="user-greeting"></span>
+            <button class="logout-btn" id="logout-btn" style="display: none;">Logout</button>
+            <button class="nav-cart" aria-label="Cart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span class="cart-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="product-container" id="book-content" style="opacity: 0;">
+        <section class="product-gallery">
+            <div class="main-image-container">
+                <img id="book-image" src="" alt="Book Cover">
+                <div class="image-glow"></div>
+            </div>
+        </section>
+
+        <section class="product-info">
+            <div class="badge font-serif">First Edition</div>
+            <h1 class="product-title font-serif" id="book-title">Loading...</h1>
+            <p class="product-subtitle font-serif">by <span id="book-author">Loading...</span></p>
+            
+            <div class="price-container">
+                <span class="price font-serif" id="book-price">$--.--</span>
+            </div>
+
+            <p class="product-description" id="book-description">
+                Loading description...
+            </p>
+
+            <div class="features-list" id="book-features">
+                <!-- Features injected here -->
+            </div>
+
+            <div class="format-selection">
+                <h3 class="font-serif">Select Format</h3>
+                <div class="format-options" id="book-formats">
+                    <!-- Formats injected here -->
+                </div>
+            </div>
+
+            <div class="action-container">
+                <button id="addToCartBtn" class="primary-btn">
+                    <span>Add to Library</span>
+                    <svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+            </div>
+            
+            <div class="toast" id="toastMessage">Added to your library!</div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
