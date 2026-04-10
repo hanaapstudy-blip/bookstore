@@ -35,7 +35,7 @@ describe('API and Database Integration Tests', () => {
                     username: 'testuser',
                     password: 'password123'
                 });
-            
+
             expect(res.statusCode).toEqual(200);
             expect(res.body.success).toBe(true);
             expect(res.body.username).toBe('testuser');
@@ -52,7 +52,7 @@ describe('API and Database Integration Tests', () => {
                     username: 'testuser', // already created above
                     password: 'password456'
                 });
-            
+
             expect(res.statusCode).toEqual(400);
             expect(res.body.error).toBe('Username already taken');
         });
@@ -64,7 +64,7 @@ describe('API and Database Integration Tests', () => {
                     username: 'testuser',
                     password: 'password123'
                 });
-            
+
             expect(res.statusCode).toEqual(200);
             expect(res.headers['set-cookie']).toBeDefined();
             expect(res.body.success).toBe(true);
@@ -77,7 +77,7 @@ describe('API and Database Integration Tests', () => {
                     username: 'testuser',
                     password: 'wrongpassword'
                 });
-            
+
             expect(res.statusCode).toEqual(400);
             expect(res.body.error).toBe('Invalid credentials');
         });
@@ -95,14 +95,14 @@ describe('API and Database Integration Tests', () => {
             const loginRes = await request(app)
                 .post('/api/login')
                 .send({ username: 'testuser', password: 'password123' });
-            
+
             const cookies = loginRes.headers['set-cookie'];
 
             // Request the book data using the cookie
             const bookRes = await request(app)
                 .get('/api/book')
                 .set('Cookie', cookies);
-            
+
             expect(bookRes.statusCode).toEqual(200);
             expect(bookRes.body.title).toBe('Test Book');
         });

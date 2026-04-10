@@ -26,32 +26,34 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to Postgres and Sync
-sequelize.sync()
-    .then(async () => {
-        console.log('Connected to PostgreSQL and Synced Models');
-        // Seed book if none exists
-        const count = await Book.count();
-        if (count === 0) {
-            await Book.create({
-                title: 'The Midnight Archive',
-                author: 'E. V. Sterling',
-                price: 49.99,
-                description: 'A masterpiece of magical realism. Follow the journey through a library that only appears between the hours of twelve and one, containing books of alternate lives and paths not taken. Bound in premium embossed leather with gold foil accents.',
-                imageUrl: 'images/book.png',
-                features: [
-                    { icon: '📖', text: '512 Pages' },
-                    { icon: '✨', text: 'Gold Foiled' },
-                    { icon: '✒️', text: 'Signed Edition' }
-                ],
-                formats: [
-                    { name: 'Hardcover', priceAddition: 0 },
-                    { name: 'Leatherbound', priceAddition: 30 }
-                ]
-            });
-            console.log('Seeded initial book data into PostgreSQL.');
-        }
-    })
-    .catch(err => console.error('PostgreSQL connection error:', err));
+if (process.env.NODE_ENV !== 'test') {
+    sequelize.sync()
+        .then(async () => {
+            console.log('Connected to PostgreSQL and Synced Models');
+            // Seed book if none exists
+            const count = await Book.count();
+            if (count === 0) {
+                await Book.create({
+                    title: 'The Midnight Archive',
+                    author: 'E. V. Sterling',
+                    price: 49.99,
+                    description: 'A masterpiece of magical realism. Follow the journey through a library that only appears between the hours of twelve and one, containing books of alternate lives and paths not taken. Bound in premium embossed leather with gold foil accents.',
+                    imageUrl: 'images/book.png',
+                    features: [
+                        { icon: '📖', text: '512 Pages' },
+                        { icon: '✨', text: 'Gold Foiled' },
+                        { icon: '✒️', text: 'Signed Edition' }
+                    ],
+                    formats: [
+                        { name: 'Hardcover', priceAddition: 0 },
+                        { name: 'Leatherbound', priceAddition: 30 }
+                    ]
+                });
+                console.log('Seeded initial book data into PostgreSQL.');
+            }
+        })
+        .catch(err => console.error('PostgreSQL connection error:', err));
+}
 
 // Auth Middleware
 const checkAuth = (req, res, next) => {
